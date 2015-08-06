@@ -175,10 +175,13 @@ namespace GogsiModLoader
 
             string sourcePath = @"." + item.SubItems[2].Text;
             string targetPath = @"./csgo";
+            string sourcePath2 = "";
 
             if (!item.Checked)
             {
                 sourcePath = @"./ModLoader/Defaults/resource/overviews";
+                sourcePath2 = @"./ModLoader/Defaults/resource/";
+
                 targetPath = @"./csgo/resource/overviews";
 
             }
@@ -188,8 +191,13 @@ namespace GogsiModLoader
 
             DirectoryInfo di1 = new DirectoryInfo(sourcePath);
             DirectoryInfo di2 = new DirectoryInfo(targetPath);
+            DirectoryInfo di3 = new DirectoryInfo(sourcePath2);
+
+
 
             CopyFolder(di1, di2);
+            if (!item.Checked)CopyFolderNoSub(di3, di2);
+
             MessageBox.Show("Done.");
             SaveMods();
         }
@@ -228,6 +236,13 @@ namespace GogsiModLoader
             foreach (FileInfo file in source.GetFiles())
                 file.CopyTo(Path.Combine(target.FullName, file.Name),true);
         }
+
+        public static void CopyFolderNoSub(DirectoryInfo source, DirectoryInfo target)
+        {
+            foreach (FileInfo file in source.GetFiles())
+                file.CopyTo(Path.Combine(target.FullName, file.Name), true);
+        }
+
 
         private void button1_Click(object sender, EventArgs e)
         {
