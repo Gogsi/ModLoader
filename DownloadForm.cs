@@ -7,6 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Net;
+using System.IO.Compression;
+using System.IO;
+
 
 namespace GogsiModLoader
 {
@@ -15,15 +19,76 @@ namespace GogsiModLoader
         public DownloadForm()
         {
             InitializeComponent();
+            LoadOnlineMods();
         }
 
+        private void LoadOnlineMods()
+        {
+            using (var client = new WebClient())
+            {
+                client.DownloadFile("https://raw.githubusercontent.com/Gogsi/ModLoader/master/ModDB/mods.info", "./ModLoader/onlinemods.info");
 
+            }
+            using (StreamReader sr = new StreamReader("./ModLoader/onlinemods.info"))
+            {
+                string line;
+
+                string modName;
+                string fileName;
+                string modType;
+                string modPure;
+                string modLink;
+
+                while ((line = sr.ReadLine()) != null)
+                {
+                    if (!line.StartsWith("//") && line.Length > 0)
+                    {
+                        //We have a mod
+                        modName = line;
+                        fileName = sr.ReadLine();
+                        modType = sr.ReadLine();
+                        modPure = sr.ReadLine();
+                        modLink = sr.ReadLine();
+
+                        ListViewItem item1 = new ListViewItem(modName);
+                        item1.SubItems.Add(fileName);
+                        item1.SubItems.Add(modType);
+                        item1.SubItems.Add(modPure);
+                        item1.SubItems.Add(modLink);
+
+                        listView1.Items.Add(item1);
+                    }
+                }
+
+            }
+        }
         private void listView1_DoubleClick(object sender, EventArgs e)
         {
             if (listView1.SelectedItems.Count > 0)
             {
                 ListViewItem item = listView1.SelectedItems[0];
-                string s_you_want = item.SubItems[1].Text;
+                string downloadLink = item.SubItems[4].Text;
+                string fileName = item.SubItems[1].Text;
+                string modType = item.SubItems[2].Text;
+                string modPure = item.SubItems[3].Text;
+
+                string modName = item.SubItems[0].Text;
+                using (var client = new WebClient())
+                {
+                    client.DownloadFile(downloadLink, "./ModLoader/" + fileName + ".zip");
+                }
+                ZipFile.ExtractToDirectory("./ModLoader/" + fileName + ".zip", "./ModLoader");
+
+                using (StreamWriter sw = new StreamWriter("./ModLoader/mods.info", true))
+                {
+                    sw.WriteLine(modName);
+                    sw.WriteLine(modType);
+                    sw.WriteLine(modPure);
+                    sw.WriteLine("./ModLoader/" + fileName);
+                    sw.WriteLine();
+
+                    sw.Close();
+                }
             }
         }
     }

@@ -32,17 +32,21 @@
             this.ModName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ModPure = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ModLink = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ModFileName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ModType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.SuspendLayout();
             // 
             // listView1
             // 
             this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.ModName,
+            this.ModFileName,
+            this.ModType,
             this.ModPure,
             this.ModLink});
             this.listView1.Location = new System.Drawing.Point(12, 12);
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(459, 423);
+            this.listView1.Size = new System.Drawing.Size(707, 423);
             this.listView1.TabIndex = 0;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
@@ -51,7 +55,7 @@
             // ModName
             // 
             this.ModName.Text = "Mod Name";
-            this.ModName.Width = 161;
+            this.ModName.Width = 196;
             // 
             // ModPure
             // 
@@ -60,14 +64,25 @@
             // 
             // ModLink
             // 
+            this.ModLink.DisplayIndex = 2;
             this.ModLink.Text = "Mod Download Link";
             this.ModLink.Width = 205;
+            // 
+            // ModFileName
+            // 
+            this.ModFileName.Text = "File Name";
+            this.ModFileName.Width = 100;
+            // 
+            // ModType
+            // 
+            this.ModType.Text = "Mod Type";
+            this.ModType.Width = 107;
             // 
             // DownloadForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(483, 447);
+            this.ClientSize = new System.Drawing.Size(731, 447);
             this.Controls.Add(this.listView1);
             this.Name = "DownloadForm";
             this.Text = "DownloadForm";
@@ -81,5 +96,7 @@
         private System.Windows.Forms.ColumnHeader ModName;
         private System.Windows.Forms.ColumnHeader ModPure;
         private System.Windows.Forms.ColumnHeader ModLink;
+        private System.Windows.Forms.ColumnHeader ModFileName;
+        private System.Windows.Forms.ColumnHeader ModType;
     }
 }
