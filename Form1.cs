@@ -16,7 +16,7 @@ namespace GogsiModLoader
        // private StreamReader sr = new StreamReader("./ModLoader/mods.info");
        // private StreamWriter sw = new StreamWriter("./ModLoader/mods.info");
 
-
+        private bool LoadingComplete = false;
         public Form1()
         {
             InitializeComponent();
@@ -24,14 +24,25 @@ namespace GogsiModLoader
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            if (!Directory.Exists("./ModLoader"))
+            {
+
+            }
             LoadMods();
         }
 
         private void LoadMods()
         {
+            LoadingComplete = false;
             listView1.Items.Clear();
             listView2.Items.Clear();
             listView3.Items.Clear();
+
+            System.Threading.Thread.Sleep(500);
+
+            List<ListViewItem> scriptItems = new List<ListViewItem>();
+            List<ListViewItem> interfaceItems = new List<ListViewItem>();
+            List<ListViewItem> fontItems = new List<ListViewItem>();
 
             using (StreamReader sr = new StreamReader("./ModLoader/mods.info"))
             {
@@ -43,9 +54,7 @@ namespace GogsiModLoader
                 string modPath;
                 string modEnabled;
 
-                List<ListViewItem> scriptItems = new List<ListViewItem>();
-                List<ListViewItem> interfaceItems = new List<ListViewItem>();
-                List<ListViewItem> fontItems = new List<ListViewItem>();
+                
 
                 while ((line = sr.ReadLine()) != null)
                 {
@@ -65,13 +74,15 @@ namespace GogsiModLoader
 
                         if (modEnabled == "Yes")
                         { item1.Checked = true; }
-
-                        if(modType == "script")
-                            scriptItems.Add(item1);
-                        if(modType == "interface")
-                            interfaceItems.Add(item1);
-                        if (modType == "font")
-                            fontItems.Add(item1);
+                        if (item1 != null)
+                        {
+                            if (modType == "script")
+                                scriptItems.Add(item1);
+                            if (modType == "interface")
+                                interfaceItems.Add(item1);
+                            if (modType == "font")
+                                fontItems.Add(item1);
+                        }
 
                        
                     }
@@ -80,12 +91,11 @@ namespace GogsiModLoader
                 sr.Close();
 
 
-                listView1.Items.AddRange(scriptItems.ToArray());
-                listView2.Items.AddRange(interfaceItems.ToArray());
-                listView3.Items.AddRange(fontItems.ToArray());
-
-
-            }
+          }
+            listView1.Items.AddRange(scriptItems.ToArray());
+            listView2.Items.AddRange(interfaceItems.ToArray());
+            listView3.Items.AddRange(fontItems.ToArray());
+            LoadingComplete = true;
         }
 
         private void SaveMods()
@@ -95,6 +105,8 @@ namespace GogsiModLoader
                
                 foreach (ListViewItem item in listView1.Items)
                 {
+      //              if (item == null) return;
+
                     sw.WriteLine(item.Text);
                     sw.WriteLine("script");
                     sw.WriteLine(item.SubItems[1].Text);
@@ -146,7 +158,6 @@ namespace GogsiModLoader
         {
             
             ListViewItem item = e.Item as ListViewItem;
-
             if (item.Tag == "first") { item.Tag = "not"; return; }
             string sourcePath = @"." + item.SubItems[2].Text;
             string targetPath = @"./csgo";
@@ -165,8 +176,8 @@ namespace GogsiModLoader
             DirectoryInfo di2 = new DirectoryInfo(targetPath);
 
            CopyFolder(di1,di2);
-           MessageBox.Show("Done.");           
-           SaveMods();
+           MessageBox.Show("Loaded " + item.Text + ".");           
+           if(LoadingComplete)SaveMods();
 
 
         }
@@ -202,14 +213,13 @@ namespace GogsiModLoader
             CopyFolder(di1, di2);
             if (!item.Checked)CopyFolderNoSub(di3, di2);
 
-            MessageBox.Show("Done.");
-            SaveMods();
+            MessageBox.Show("Loaded " + item.Text + ".");
+            if (LoadingComplete) SaveMods();
         }
 
         private void listView3_ItemChecked(object sender, ItemCheckedEventArgs e)
         {
             ListViewItem item = e.Item as ListViewItem;
-
             if (item.Tag == "first") { item.Tag = "not"; return; }
 
             string sourcePath = @"." + item.SubItems[2].Text;
@@ -229,8 +239,8 @@ namespace GogsiModLoader
             DirectoryInfo di2 = new DirectoryInfo(targetPath);
 
             CopyFolder(di1, di2);
-            MessageBox.Show("Done.");
-            SaveMods();
+            MessageBox.Show("Loaded " + item.Text + ".");
+            if (LoadingComplete) SaveMods();
         }
 
         public static void CopyFolder(DirectoryInfo source, DirectoryInfo target)

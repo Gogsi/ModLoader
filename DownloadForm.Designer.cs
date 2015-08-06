@@ -30,10 +30,12 @@
         {
             this.listView1 = new System.Windows.Forms.ListView();
             this.ModName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.ModPure = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.ModLink = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ModFileName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ModType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ModPure = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ModLink = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // listView1
@@ -57,17 +59,6 @@
             this.ModName.Text = "Mod Name";
             this.ModName.Width = 196;
             // 
-            // ModPure
-            // 
-            this.ModPure.Text = "Is Mod Pure";
-            this.ModPure.Width = 107;
-            // 
-            // ModLink
-            // 
-            this.ModLink.DisplayIndex = 2;
-            this.ModLink.Text = "Mod Download Link";
-            this.ModLink.Width = 205;
-            // 
             // ModFileName
             // 
             this.ModFileName.Text = "File Name";
@@ -78,15 +69,47 @@
             this.ModType.Text = "Mod Type";
             this.ModType.Width = 107;
             // 
+            // ModPure
+            // 
+            this.ModPure.Text = "Is Mod Pure";
+            this.ModPure.Width = 107;
+            // 
+            // ModLink
+            // 
+            this.ModLink.Text = "Mod Download Link";
+            this.ModLink.Width = 205;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(13, 442);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(185, 13);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "Double-click on a mod to download it.";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 26.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(206, 184);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(245, 39);
+            this.label2.TabIndex = 2;
+            this.label2.Text = "Loading Mods";
+            // 
             // DownloadForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(731, 447);
+            this.ClientSize = new System.Drawing.Size(731, 463);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.listView1);
             this.Name = "DownloadForm";
-            this.Text = "DownloadForm";
+            this.Text = "Download Mods";
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -98,5 +121,7 @@
         private System.Windows.Forms.ColumnHeader ModLink;
         private System.Windows.Forms.ColumnHeader ModFileName;
         private System.Windows.Forms.ColumnHeader ModType;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
     }
 }

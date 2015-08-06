@@ -61,6 +61,8 @@ namespace GogsiModLoader
                 }
 
             }
+            label2.Visible = false;
+
         }
         private void listView1_DoubleClick(object sender, EventArgs e)
         {
