@@ -178,8 +178,8 @@ namespace GogsiModLoader
 
             if (!item.Checked)
             {
-                sourcePath = @"./ModLoader/Defaults/resource";
-                targetPath = @"./csgo/resource";
+                sourcePath = @"./ModLoader/Defaults/resource/overviews";
+                targetPath = @"./csgo/resource/overviews";
 
             }
 
@@ -205,8 +205,8 @@ namespace GogsiModLoader
 
             if (!item.Checked)
             {
-                sourcePath = @"./ModLoader/Defaults/resource";
-                targetPath = @"./csgo/resource";
+                sourcePath = @"./ModLoader/Defaults/resource/flash";
+                targetPath = @"./csgo/resource/flash";
 
             }
 

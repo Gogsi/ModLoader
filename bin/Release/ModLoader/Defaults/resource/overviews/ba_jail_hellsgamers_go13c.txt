@@ -1,0 +1,9 @@
+// HLTV overview description file for ba_jail_hellsgamers_go13b.bsp
+
+"ba_jail_hellsgamers_go13b"
+{
+ "material" "overviews/ba_jail_hellsgamers_go13b"
+ "pos_x"        "-4575"     //MAP X COORDS
+ "pos_y"        "2177"    //MAP Y COORDS
+ "scale"        "8"        //MAP SCALE
+}
