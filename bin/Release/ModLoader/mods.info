@@ -4,6 +4,12 @@ No
 /ModLoader/SSWeaponBalanceMod
 No
 
+Test Knifes Offline Mod
+script
+Yes
+/ModLoader/TestKnifesMod
+No
+
 Londrina Font
 font
 Yes

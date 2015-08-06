@@ -79,16 +79,20 @@ namespace GogsiModLoader
                 }
                 ZipFile.ExtractToDirectory("./ModLoader/" + fileName + ".zip", "./ModLoader");
 
+                File.Delete("./ModLoader/" + fileName + ".zip");
+
                 using (StreamWriter sw = new StreamWriter("./ModLoader/mods.info", true))
                 {
                     sw.WriteLine(modName);
                     sw.WriteLine(modType);
                     sw.WriteLine(modPure);
-                    sw.WriteLine("./ModLoader/" + fileName);
+                    sw.WriteLine("/ModLoader/" + fileName);
+                    sw.WriteLine("No");
                     sw.WriteLine();
 
                     sw.Close();
                 }
+                MessageBox.Show("Mod successfully downloaded.");
             }
         }
     }

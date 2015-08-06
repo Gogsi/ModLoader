@@ -29,6 +29,10 @@ namespace GogsiModLoader
 
         private void LoadMods()
         {
+            listView1.Items.Clear();
+            listView2.Items.Clear();
+            listView3.Items.Clear();
+
             using (StreamReader sr = new StreamReader("./ModLoader/mods.info"))
             {
                 string line;
@@ -369,6 +373,9 @@ namespace GogsiModLoader
         private void button10_Click(object sender, EventArgs e)
         {
             new DownloadForm().ShowDialog();
+            File.Delete("./ModLoader/onlinemods.info");
+
+            LoadMods();
 
         }
 
