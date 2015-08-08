@@ -4,10 +4,10 @@ No
 /ModLoader/SSWeaponBalanceMod
 Yes
 
-Offline Knife Test
-script
-???
-/ModLoader/TestKnifesMod
+Radar Overviews
+interface
+Yes
+/ModLoader/RadarOverviews
 No
 
 Londrina Font

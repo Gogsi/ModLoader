@@ -95,6 +95,14 @@ namespace GogsiModLoader
             listView1.Items.AddRange(scriptItems.ToArray());
             listView2.Items.AddRange(interfaceItems.ToArray());
             listView3.Items.AddRange(fontItems.ToArray());
+
+            tabControl1.TabIndex = 1;
+            System.Threading.Thread.Sleep(5);
+            tabControl1.TabIndex = 2;
+            System.Threading.Thread.Sleep(5);
+            tabControl1.TabIndex = 0;
+
+
             LoadingComplete = true;
         }
 
@@ -141,6 +149,11 @@ namespace GogsiModLoader
                     sw.WriteLine("font");
                     sw.WriteLine(item.SubItems[1].Text);
                     sw.WriteLine(item.SubItems[2].Text);
+           
+                    
+                    
+                    
+                    
                     if (item.Checked)
                         sw.WriteLine("Yes");
                     else
@@ -159,61 +172,46 @@ namespace GogsiModLoader
             
             ListViewItem item = e.Item as ListViewItem;
             if (item.Tag == "first") { item.Tag = "not"; return; }
+
             string sourcePath = @"." + item.SubItems[2].Text;
             string targetPath = @"./csgo";
 
             if (!item.Checked)
             {
-                sourcePath = @"./ModLoader/Defaults/scripts";
-                targetPath = @"./csgo/scripts";
+                UnloadMod(sourcePath, "");
+                MessageBox.Show("Unloaded " + item.Text + ".");
 
             }
-           
-            Console.WriteLine(sourcePath);
+            else
+            {
+                LoadMod(sourcePath);            
+                MessageBox.Show("Loaded " + item.Text + ".");
+            }
 
-
-            DirectoryInfo di1 = new DirectoryInfo(sourcePath);
-            DirectoryInfo di2 = new DirectoryInfo(targetPath);
-
-           CopyFolder(di1,di2);
-           MessageBox.Show("Loaded " + item.Text + ".");           
-           if(LoadingComplete)SaveMods();
-
+            if (LoadingComplete) SaveMods();
 
         }
 
         private void listView2_ItemChecked(object sender, ItemCheckedEventArgs e)
         {
             ListViewItem item = e.Item as ListViewItem;
-
             if (item.Tag == "first") { item.Tag = "not"; return; }
 
             string sourcePath = @"." + item.SubItems[2].Text;
             string targetPath = @"./csgo";
-            string sourcePath2 = "";
 
             if (!item.Checked)
             {
-                sourcePath = @"./ModLoader/Defaults/resource/overviews";
-                sourcePath2 = @"./ModLoader/Defaults/resource/";
-
-                targetPath = @"./csgo/resource/overviews";
+                UnloadMod(sourcePath, "");
+                MessageBox.Show("Unloaded " + item.Text + ".");
 
             }
+            else
+            {
+                LoadMod(sourcePath);
+                MessageBox.Show("Loaded " + item.Text + ".");
+            }
 
-            Console.WriteLine(sourcePath);
-
-
-            DirectoryInfo di1 = new DirectoryInfo(sourcePath);
-            DirectoryInfo di2 = new DirectoryInfo(targetPath);
-            DirectoryInfo di3 = new DirectoryInfo(sourcePath2);
-
-
-
-            CopyFolder(di1, di2);
-            if (!item.Checked)CopyFolderNoSub(di3, di2);
-
-            MessageBox.Show("Loaded " + item.Text + ".");
             if (LoadingComplete) SaveMods();
         }
 
@@ -227,35 +225,64 @@ namespace GogsiModLoader
 
             if (!item.Checked)
             {
-                sourcePath = @"./ModLoader/Defaults/resource/flash";
-                targetPath = @"./csgo/resource/flash";
+                UnloadMod(sourcePath, "");
+                MessageBox.Show("Unloaded " + item.Text + ".");
 
             }
+            else
+            {
+                LoadMod(sourcePath);            
+                MessageBox.Show("Loaded " + item.Text + ".");
+            }
 
-            Console.WriteLine(sourcePath);
+            if (LoadingComplete) SaveMods();
+        }
 
+        public static void LoadMod(string modFolder)
+        {
+            string targetPath = @"./csgo";
 
-            DirectoryInfo di1 = new DirectoryInfo(sourcePath);
+            DirectoryInfo di1 = new DirectoryInfo(modFolder);
             DirectoryInfo di2 = new DirectoryInfo(targetPath);
 
             CopyFolder(di1, di2);
-            MessageBox.Show("Loaded " + item.Text + ".");
-            if (LoadingComplete) SaveMods();
+        }
+
+        public static void UnloadMod(string modFolder, string additional)
+        {
+            string defaultsFolder = "ModLoader/Defaults";
+            string actionFoler = "csgo";
+            DirectoryInfo current = new DirectoryInfo(modFolder +  additional);
+            DirectoryInfo original = new DirectoryInfo(defaultsFolder + additional);
+
+            foreach (DirectoryInfo dir in current.GetDirectories())
+            {
+                UnloadMod(modFolder, additional + "/" + dir.Name);
+            }
+            foreach (FileInfo file in current.GetFiles())
+            {
+                FileInfo originalFile = new FileInfo(defaultsFolder + additional + "/" + file.Name);
+
+                if (originalFile.Exists)
+                {
+                    originalFile.CopyTo(actionFoler +  additional + "/" + file.Name, true);
+
+                }else{
+                    new FileInfo(@actionFoler +  additional + "/" + file.Name).Delete();
+                }
+            }
         }
 
         public static void CopyFolder(DirectoryInfo source, DirectoryInfo target)
         {
             foreach (DirectoryInfo dir in source.GetDirectories())
                 CopyFolder(dir, target.CreateSubdirectory(dir.Name));
+
             foreach (FileInfo file in source.GetFiles())
                 file.CopyTo(Path.Combine(target.FullName, file.Name),true);
         }
 
-        public static void CopyFolderNoSub(DirectoryInfo source, DirectoryInfo target)
-        {
-            foreach (FileInfo file in source.GetFiles())
-                file.CopyTo(Path.Combine(target.FullName, file.Name), true);
-        }
+       
 
 
         private void button1_Click(object sender, EventArgs e)
